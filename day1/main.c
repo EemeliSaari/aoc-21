@@ -3,6 +3,9 @@
 #include <string.h>
 #include <time.h>
 
+#define TICK(X) clock_t X = clock()
+#define TOCK(X) printf("time %s: %g sec.\n", (#X), (double)(clock() - (X)) / CLOCKS_PER_SEC)
+
 
 int window_sum(int w[], int ws) {
     int count = 0;
@@ -50,7 +53,7 @@ int main() {
     int wprev = 0;
     int wn = 0;
 
-    clock_t begin = clock();
+    TICK(CLOCK);
     fp = fopen("input.txt", "r");
     while ((read = getline(&line, &len, fp)) != -1) {
         value = num_from_line(line);
@@ -72,12 +75,9 @@ int main() {
         wprev = wvalue;
         idx = idx + 1;
     }
+    TOCK(CLOCK);
 
     printf("%d %d\n", n, wn);
     fclose(fp);
-
-    clock_t end = clock();
-    double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
-    printf("%f\n", time_spent);
     return 0;
 }
